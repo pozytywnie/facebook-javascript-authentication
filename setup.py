@@ -18,4 +18,7 @@ setup(
     packages=[
         'facebook_javascript_authentication',
     ],
+    package_data={
+        'facebook_javascript_authentication': ['static/*/*.*'],
+    },
 )
