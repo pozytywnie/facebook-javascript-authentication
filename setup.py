@@ -10,6 +10,7 @@ setup(
         'django',
         'django-annoying',
         'django-component',
+        'django-facebook-auth',
         'django-package-installer',
         'facebook-javascript-sdk',
         'javascript-configuration',
