@@ -18,6 +18,7 @@ class FacebookJavaScriptAuthenticationPackage(Package):
         )
 
 class FacebookJavaScriptAuthentication(JavaScriptComponent):
+    REQUIRE_PACKAGES = ['facebook_javascript_authentication']
     REQUIRE = (javascript_configuration.JavaScriptConfiguration,)
     JAVASCRIPT_FILES = (
         'facebook_javascript_authentication/script.js',
