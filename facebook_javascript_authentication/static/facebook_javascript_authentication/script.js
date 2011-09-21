@@ -25,3 +25,40 @@ function loginDialog(success, perms) {
         }
     }, {perms: perms});
 }
+
+function fakeClick(node) {
+    if(node.is('a')) {
+        href = node.attr('href');
+        if(node.attr('target').toLowerCase() == '_top')
+            top.location = href;
+        else
+            window.location = href;
+    } else {
+        node.click();
+    }
+}
+
+function initLoginRequired(permissions) {
+    function requireLogin() {
+        var node = $(this);
+        var isButton = node.is('button, input[type=submit]')
+        function resubmit() {
+            // unbind, so fakeClick doesn't see handler on node
+            node.unbind('click', requireLogin);
+            fakeClick(node);
+        }
+        function cancel() {
+            if(isButton)
+                node.attr('disabled', false);
+        }
+        if(!isAuthenticated) {
+            if(isButton)
+                node.attr('disabled', true);
+            loginDialog(resubmit, permissions, cancel);
+            return false;
+        }
+    }
+    $(function() {
+        $('.login-required').click(requireLogin);
+    });
+}
