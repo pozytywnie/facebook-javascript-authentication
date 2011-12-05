@@ -45,6 +45,8 @@ function initLoginRequired(permissions) {
         function resubmit() {
             // unbind, so fakeClick doesn't see handler on node
             node.unbind('click', requireLogin);
+            if(isButton)
+                node.attr('disabled', false);
             fakeClick(node);
         }
         function cancel() {
