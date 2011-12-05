@@ -28,8 +28,9 @@ function loginDialog(success, perms) {
 
 function fakeClick(node) {
     if(node.is('a')) {
-        href = node.attr('href');
-        if(node.attr('target').toLowerCase() == '_top')
+        var href = node.attr('href');
+        var target = node.attr('target');
+        if(typeof target != 'undefined' && node.attr('target').toLowerCase() == '_top')
             top.location = href;
         else
             window.location = href;
