@@ -12,18 +12,18 @@ function login(access_token, success) {
     );
 }
 
-function loginDialog(success, perms) {
+function loginDialog(success, scope) {
     /*
      * Login user using Facebook authorisation mechanism.
      *
      * Displays standard Facebook login popup if neaded.
      */
-    perms = perms || '';
+    scope = scope || '';
     FB.login(function(response) {
         if (response.session) {
             login(response.session.access_token, success=success);
         }
-    }, {perms: perms});
+    }, {scope: scope});
 }
 
 function fakeClick(node) {
