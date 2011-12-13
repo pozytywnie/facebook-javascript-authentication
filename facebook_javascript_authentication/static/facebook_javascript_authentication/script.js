@@ -20,8 +20,8 @@ function loginDialog(success, scope) {
      */
     scope = scope || '';
     FB.login(function(response) {
-        if (response.session) {
-            login(response.session.access_token, success=success);
+        if (response.authResponse) {
+            login(response.authResponse.accessToken, success=success);
         }
     }, {scope: scope});
 }
