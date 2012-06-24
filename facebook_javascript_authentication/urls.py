@@ -5,7 +5,7 @@ urlpatterns = patterns('facebook_javascript_authentication.views',
     url(r'^authenticate$', 'authenticate'),
 )
 
-def javascript_configuration():
+def javascript_settings():
     return {
         'authenticate': reverse('facebook_javascript_authentication.views.authenticate')
     }
