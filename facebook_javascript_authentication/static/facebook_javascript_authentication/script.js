@@ -12,6 +12,12 @@ function login(access_token, success) {
     );
 }
 
+function updateIsAuthenticatedOnFBStatusChanged(){
+    FB.Event.subscribe('auth.statusChange', function(response) {
+        isAuthenticated = (response['status'] == 'connected');
+    });
+}
+
 function loginDialog(success, scope) {
     /*
      * Login user using Facebook authorisation mechanism.
