@@ -1,6 +1,10 @@
 facebook-javascript-authentication
 ==================================
 
+facebook-javascript-authentication is a Django application that
+manages user authentication via Facebook using the JavaScript
+Facebook SDK.
+
 Installation
 ------------
 
