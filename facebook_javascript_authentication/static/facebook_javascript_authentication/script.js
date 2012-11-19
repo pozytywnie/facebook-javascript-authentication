@@ -1,6 +1,6 @@
 var isAuthenticated = false;
 
-function login(access_token, success) {
+function login(access_token, expiresIn, success) {
     var local_configuration = configuration['facebook_javascript_authentication'];
     success = success || function() {};
     $.post(local_configuration['authenticate'], {access_token: access_token},
@@ -27,7 +27,7 @@ function loginDialog(success, scope) {
     scope = scope || '';
     FB.login(function(response) {
         if (response.authResponse) {
-            login(response.authResponse.accessToken, success=success);
+            login(response.authResponse.accessToken, response.authResponse.expiresIn, success=success);
         }
     }, {scope: scope});
 }
