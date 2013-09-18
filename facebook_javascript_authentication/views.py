@@ -1,13 +1,13 @@
 import datetime
+import json
 
-from annoying.decorators import ajax_request
 from django.contrib import auth
+from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
 @never_cache
 @csrf_exempt
-@ajax_request
 def authenticate(request, authenticate=auth.authenticate, login=auth.login):
     access_token = request.POST.get('access_token', None)
     token_expiration_date = _get_token_expiration_date(request)
@@ -16,8 +16,8 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
                             token_expiration_date=token_expiration_date)
         if user is not None:
             login(request, user)
-            return {'status': 'ok'}
-    return {'status': 'error'}
+            return HttpResponse(json.dumps({'status': 'ok'}))
+    return HttpResponse(json.dumps({'status': 'error'}))
 
 def _get_token_expiration_date(request):
     token_expiration_date = None

@@ -8,7 +8,6 @@ setup(
     maintainer_email="tomasz@wysocki.info",
     install_requires=(
         'django',
-        'django-annoying',
         'django-facebook-auth>=2.7.4',
         'facebook-javascript-sdk',
         'django-javascript-settings',
