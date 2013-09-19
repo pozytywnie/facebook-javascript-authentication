@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='facebook-javascript-authentication',
-    version='3.0.0',
+    version='3.0.1',
     maintainer="Tomasz Wysocki",
     maintainer_email="tomasz@wysocki.info",
     install_requires=(

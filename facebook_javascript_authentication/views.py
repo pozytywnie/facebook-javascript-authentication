@@ -16,8 +16,8 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
                             token_expiration_date=token_expiration_date)
         if user is not None:
             login(request, user)
-            return HttpResponse(json.dumps({'status': 'ok'}))
-    return HttpResponse(json.dumps({'status': 'error'}))
+            return HttpResponse(json.dumps({'status': 'ok'}), mimetype='application/json')
+    return HttpResponse(json.dumps({'status': 'error'}), mimetype='application/json')
 
 def _get_token_expiration_date(request):
     token_expiration_date = None
