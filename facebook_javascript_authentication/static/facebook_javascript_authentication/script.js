@@ -3,7 +3,8 @@ var isAuthenticated = false;
 function login(access_token, expiresIn, success) {
     var local_configuration = configuration['facebook_javascript_authentication'];
     success = success || function() {};
-    $.post(local_configuration['authenticate'], {access_token: access_token},
+    $.post(local_configuration['authenticate'], {access_token: access_token,
+        'token_expires_in': expiresIn},
         callback = function(response) {
             isAuthenticated = true;
             if(response.status == 'ok' && typeof success != 'undefined')
