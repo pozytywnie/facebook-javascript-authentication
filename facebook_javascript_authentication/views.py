@@ -28,14 +28,3 @@ def _get_token_expiration_date(request):
         expires_in = datetime.timedelta(seconds=expires_in_seconds)
         token_expiration_date = timezone.now() + expires_in
     return token_expiration_date
-
-
-def _update_token_expiration_date(request, user):
-    token_expiration_date = None
-    if 'token_expires_in' in request.POST:
-        expires_in_seconds = int(request.POST['token_expires_in'])
-        expires_in = datetime.timedelta(seconds=expires_in_seconds)
-        token_expiration_date = timezone.now() + expires_in
-    facebook_user = user.facebookuser
-    facebook_user.access_token_expiration_date = token_expiration_date
-    facebook_user.save()
