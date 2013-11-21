@@ -24,6 +24,8 @@ Configuration
 settings.py
 ___________
 
+Set USE_TZ = True
+
 Add facebook_javascript_authentication to INSTALLED_APPS::
 
     INSTALLED_APPS = (
