@@ -2,10 +2,12 @@ import datetime
 import json
 
 from django.contrib import auth
+from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
+
 
 @never_cache
 @csrf_exempt
@@ -17,7 +19,14 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
                             token_expiration_date=token_expiration_date)
         if user is not None:
             login(request, user)
-            return HttpResponse(json.dumps({'status': 'ok'}), mimetype='application/json')
+            data = json.dumps({'status': 'ok',
+                               'csrf_token': unicode(csrf(request).get('csrf_token', None)),
+                               'user_id': user.id,
+                               'first_name': user.first_name,
+                               'last_name': user.last_name,
+                               'email': user.email,
+                               'username': user.username})
+            return HttpResponse(data, mimetype='application/json')
     return HttpResponse(json.dumps({'status': 'error'}), mimetype='application/json')
 
 

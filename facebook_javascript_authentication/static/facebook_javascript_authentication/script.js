@@ -8,7 +8,7 @@ function login(access_token, expiresIn, success) {
         callback = function(response) {
             isAuthenticated = true;
             if(response.status == 'ok' && typeof success != 'undefined')
-                success();
+                success(response);
         }
     );
 }
