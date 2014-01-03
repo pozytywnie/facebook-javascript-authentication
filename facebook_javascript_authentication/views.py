@@ -4,6 +4,7 @@ import json
 from django.contrib import auth
 from django.core.context_processors import csrf
 from django.http import HttpResponse
+from django.utils.encoding import force_text
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -20,7 +21,7 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
         if user is not None:
             login(request, user)
             data = json.dumps({'status': 'ok',
-                               'csrf_token': unicode(csrf(request).get('csrf_token', None)),
+                               'csrf_token': force_text(csrf(request).get('csrf_token', None)),
                                'user_id': user.id,
                                'first_name': user.first_name,
                                'last_name': user.last_name,
