@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 
 from django.contrib import auth
 from django.core.context_processors import csrf
@@ -9,6 +10,9 @@ from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
+logger = logging.getLogger(__name__)
+
+FALLBACK_EXPIRES_IN_SECONDS = 900
 
 @never_cache
 @csrf_exempt
@@ -34,7 +38,14 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
 def _get_token_expiration_date(request):
     token_expiration_date = None
     if 'token_expires_in' in request.POST:
-        expires_in_seconds = int(request.POST['token_expires_in'])
+        token_expires_in = request.POST['token_expires_in']
+        try:
+            expires_in_seconds = int(token_expires_in)
+        except ValueError:
+            logger.warning('Invalid token_expires_in',
+                           extra={'token_expires_in': token_expires_in,
+                                  'request': request})
+            expires_in_seconds = FALLBACK_EXPIRES_IN_SECONDS
         expires_in = datetime.timedelta(seconds=expires_in_seconds)
         token_expiration_date = timezone.now() + expires_in
     return token_expiration_date
