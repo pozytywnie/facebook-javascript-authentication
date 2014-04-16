@@ -31,8 +31,8 @@ def authenticate(request, authenticate=auth.authenticate, login=auth.login):
                                'last_name': user.last_name,
                                'email': user.email,
                                'username': user.username})
-            return HttpResponse(data, mimetype='application/json')
-    return HttpResponse(json.dumps({'status': 'error'}), mimetype='application/json')
+            return HttpResponse(data, content_type='application/json')
+    return HttpResponse(json.dumps({'status': 'error'}), content_type='application/json')
 
 
 def _get_token_expiration_date(request):
