@@ -26,13 +26,7 @@ class AuthenticateFacebookUser(View):
                                  token_expiration_date=token_expiration_date)
             if user is not None:
                 login(request, user)
-                data = json.dumps({'status': 'ok',
-                                   'csrf_token': force_text(csrf(request).get('csrf_token', None)),
-                                   'user_id': user.id,
-                                   'first_name': user.first_name,
-                                   'last_name': user.last_name,
-                                   'email': user.email,
-                                   'username': user.username})
+                data = json.dumps(self._get_response_data(user, request))
                 return HttpResponse(data, content_type='application/json')
         return HttpResponse(json.dumps({'status': 'error'}),
                             content_type='application/json')
@@ -52,5 +46,17 @@ class AuthenticateFacebookUser(View):
             expires_in = datetime.timedelta(seconds=expires_in_seconds)
             token_expiration_date = timezone.now() + expires_in
         return token_expiration_date
+
+    @staticmethod
+    def _get_response_data(user, request):
+        return {
+            'status': 'ok',
+            'csrf_token': force_text(csrf(request).get('csrf_token', None)),
+            'user_id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'username': user.username
+        }
 
 authenticate = csrf_exempt(never_cache(AuthenticateFacebookUser.as_view()))
