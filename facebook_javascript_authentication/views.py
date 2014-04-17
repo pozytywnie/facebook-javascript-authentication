@@ -17,12 +17,13 @@ FALLBACK_EXPIRES_IN_SECONDS = 900
 
 
 class AuthenticateFacebookUser(View):
-    def post(self, request, authenticate=auth.authenticate, login=auth.login, *args, **kwargs):
+    def post(self, request, authenticator=auth.authenticate, login=auth.login,
+             *args, **kwargs):
         access_token = request.POST.get('access_token', None)
         token_expiration_date = self._get_token_expiration_date(request)
-        if access_token != None:
-            user = authenticate(access_token=access_token,
-                                token_expiration_date=token_expiration_date)
+        if access_token is not None:
+            user = authenticator(access_token=access_token,
+                                 token_expiration_date=token_expiration_date)
             if user is not None:
                 login(request, user)
                 data = json.dumps({'status': 'ok',
@@ -33,7 +34,8 @@ class AuthenticateFacebookUser(View):
                                    'email': user.email,
                                    'username': user.username})
                 return HttpResponse(data, content_type='application/json')
-        return HttpResponse(json.dumps({'status': 'error'}), content_type='application/json')
+        return HttpResponse(json.dumps({'status': 'error'}),
+                            content_type='application/json')
 
     @staticmethod
     def _get_token_expiration_date(request):
