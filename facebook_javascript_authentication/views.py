@@ -22,8 +22,7 @@ class AuthenticateFacebookUser(View):
         access_token = request.POST.get('access_token', None)
         token_expiration_date = self._get_token_expiration_date(request)
         if access_token is not None:
-            user = authenticator(access_token=access_token,
-                                 token_expiration_date=token_expiration_date)
+            user = authenticator(access_token=access_token)
             if user is not None:
                 login(request, user)
                 data = json.dumps(self._get_response_data(user, request))
