@@ -20,7 +20,6 @@ class AuthenticateFacebookUserTest(TestCase):
         session.process_request(request)
         request.POST = {
             'access_token': 'aaa',
-            'token_expires_in': 100
         }
         data_dict = {'email': 'aaa@aaa.com', 'name': 'Aaa',
                      'last_name': 'Zzz',

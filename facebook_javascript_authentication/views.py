@@ -1,4 +1,3 @@
-import datetime
 import json
 import logging
 
@@ -6,21 +5,17 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.utils.encoding import force_text
-from django.utils import timezone
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
 logger = logging.getLogger(__name__)
 
-FALLBACK_EXPIRES_IN_SECONDS = 900
-
 
 class AuthenticateFacebookUser(View):
     def post(self, request, authenticator=auth.authenticate, login=auth.login,
              *args, **kwargs):
         access_token = request.POST.get('access_token', None)
-        token_expiration_date = self._get_token_expiration_date(request)
         if access_token is not None:
             user = authenticator(access_token=access_token)
             if user is not None:
@@ -29,22 +24,6 @@ class AuthenticateFacebookUser(View):
                 return HttpResponse(data, content_type='application/json')
         return HttpResponse(json.dumps({'status': 'error'}),
                             content_type='application/json')
-
-    @staticmethod
-    def _get_token_expiration_date(request):
-        token_expiration_date = None
-        if 'token_expires_in' in request.POST:
-            token_expires_in = request.POST['token_expires_in']
-            try:
-                expires_in_seconds = int(token_expires_in)
-            except ValueError:
-                logger.warning('Invalid token_expires_in',
-                               extra={'token_expires_in': token_expires_in,
-                                      'request': request})
-                expires_in_seconds = FALLBACK_EXPIRES_IN_SECONDS
-            expires_in = datetime.timedelta(seconds=expires_in_seconds)
-            token_expiration_date = timezone.now() + expires_in
-        return token_expiration_date
 
     @staticmethod
     def _get_response_data(user, request):

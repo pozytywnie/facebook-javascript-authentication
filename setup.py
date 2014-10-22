@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='facebook-javascript-authentication',
-    version='3.0.9',
+    version='3.0.10',
     maintainer="Tomasz Wysocki",
     maintainer_email="tomasz@wysocki.info",
     install_requires=(
