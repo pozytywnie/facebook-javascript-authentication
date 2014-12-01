@@ -3,13 +3,12 @@ from setuptools import setup
 
 setup(
     name='facebook-javascript-authentication',
-    version='3.0.10',
+    version='3.0.11',
     maintainer="Tomasz Wysocki",
     maintainer_email="tomasz@wysocki.info",
     install_requires=(
         'django',
         'django-facebook-auth>=2.7.4',
-        'facebook-javascript-sdk',
         'django-javascript-settings',
     ),
     packages=[
