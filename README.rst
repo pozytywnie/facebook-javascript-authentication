@@ -3,7 +3,7 @@ facebook-javascript-authentication
 
 facebook-javascript-authentication is a Django application that
 manages user authentication via Facebook using the JavaScript
-Facebook SDK.
+Facebook SDK and django-facebook-auth application ( https://github.com/pozytywnie/django-facebook-auth )
 
 Installation
 ------------
@@ -72,3 +72,10 @@ isAuthenticated variable
 ________________________
 
 Variable isAuthenticated is set to current user status on each facebook 'auth.statusChange' event.
+
+
+Custom login source
+___________________
+If you have a user access token then you can try authenticate him by calling::
+
+    login(access_token, successCallbackFunction)
