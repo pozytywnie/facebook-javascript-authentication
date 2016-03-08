@@ -2,7 +2,7 @@ import json
 import logging
 
 from django.contrib import auth
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from django.http import HttpResponse
 from django.utils.encoding import force_text
 from django.views.decorators.cache import never_cache
